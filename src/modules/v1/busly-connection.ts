@@ -10,7 +10,6 @@ class RealTime {
     private roundWaitTime = '5.0'
     private generatedOdds = '0.00';
     private rangeOutcome = '';
-    // private causeOutcome = '';
     private date: Date | null = null;
     private roundWaitTimeEndAt = 5
 
