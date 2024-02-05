@@ -1,7 +1,7 @@
 /** @format */
 
 import { Server } from "socket.io"
-import RealTime from "../v1/crashlite-connection"
+import RealTime from "../v1/busly-connection"
 import { encryptData } from "./hashings"
 
 const connectedSockets: Array<string> = []

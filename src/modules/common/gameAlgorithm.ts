@@ -1,5 +1,5 @@
-import { createHmac } from 'crypto';
-import { generate } from 'randomstring'
+import { createHmac, randomInt } from 'crypto';
+import { generate } from 'randomstring';
 
 export const processAlgorithm = () => {
     function gameResultFromHash(hash:string) {
@@ -52,4 +52,29 @@ export const processAlgorithm = () => {
         result = calculateResult();
     
         return result;
+}
+
+export const processRangeAlgo = () => {
+    function bettingGame(options: { choice: number; causeOfStop: string; }[]) {
+        // Find the multiplier for the player's chosen option
+        let causeOfStop = '', choice=1;
+        let i = randomInt(6)
+        causeOfStop = options[i].causeOfStop;
+        choice = options[i].choice;
+ 
+    
+        return { causeOfStop: causeOfStop, choice: choice };
+    }
+    
+    const options = [
+        { choice: 1, causeOfStop: 'Accident' }, 
+        { choice: 2, causeOfStop: 'Traffic' }, 
+        { choice: 3, causeOfStop: 'Overheating' }, 
+        { choice: 4, causeOfStop: 'Bad Road' }, 
+        { choice: 5, causeOfStop: 'Bus Stop' },
+        { choice: 6, causeOfStop: 'Flat Tyre' }, 
+    ];
+
+    const result = bettingGame( options);
+    return result
 }
