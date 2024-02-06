@@ -7,7 +7,7 @@
 * readingOdds: When odd is reading. Shown after countdown stops at 10,
 * roundWaitTime: The grace period to show round result to user. Ends at 5,
 * generatedOdds: The generated odd for this round, shows the winning odds. Might want to use this after grace periods
-* rangeOutcome: The Bet on Distance side bet result for each round
+* causeOfStop: The cause of stop side bet result for each round
 * connectedUsers: Number of users connected to the websocket to play the game
 
 #### RESPONSE
