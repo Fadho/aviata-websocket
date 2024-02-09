@@ -23,8 +23,8 @@
     "lint": "eslint --ext .ts --ignore-path .gitignore .",
     "build": "tsc -p .",
     "prepare": "husky install",
-    "pm2": "pm2 start npm --name \"CRASHLITE_WEBSOCKET\" -- start",
-    "restart": "yarn && yarn build && pm2 restart CRASHLITE_WEBSOCKET",
+    "pm2": "pm2 start npm --name \"BUSLY_WEBSOCKET\" -- start",
+    "restart": "yarn && yarn build && pm2 restart BUSLY_WEBSOCKET",
     "restart-all": "yarn build && pm2 restart all"
   },
   "dependencies": {
