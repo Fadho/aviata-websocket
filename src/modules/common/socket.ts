@@ -25,13 +25,13 @@ export const handleSocketRequest = async (io: Server) => {
         })
     })
     console.log(connectedSockets.length, !!socketInterval)
-    socketInterval = setInterval(() => {
+    setInterval(() => {
         const data = {
             ...packet.Start(),
             connectedUsers: connectedSockets.length,
         }
         
-        // console.log(data);
+        console.log(data);
         io.volatile.emit(
             "crash-event",
             encryptData(JSON.stringify(data))
