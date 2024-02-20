@@ -3,15 +3,15 @@ import { createReference } from "../common/utils";
 
 class RealTime {
     private reference = '';
-    private countdown = '0.0';
-    private countdownEndAt = 10
+    private countdown = '10.0';
+    private countdownEndAt = 0
     private canPlaceBet = true;
     private readingOdds = '1.00'
     private roundWaitTime = '5.0'
     private generatedOdds = '0.00';
     private rangeOutcome = '';
     private date: Date | null = null;
-    private roundWaitTimeEndAt = 5
+    private roundWaitTimeEndAt = 0;
 
     constructor(date: Date | null) {
         this.date = date;
@@ -44,16 +44,16 @@ class RealTime {
         const hasWaitTimeEnded = Number(this.roundWaitTime) === this.roundWaitTimeEndAt;
 
         if (!hasWaitTimeEnded) {
-            this.roundWaitTime = Number(Number(this.roundWaitTime) + 0.2).toFixed(1);
+            this.roundWaitTime = Number(Number(this.roundWaitTime) - 0.2).toFixed(1);
         }
 
         if (hasWaitTimeEnded) {
-            if (Number(this.countdown) === 0) {
+            if (Number(this.countdown) === 10) {
                 this.GenerateCred()
             }
 
             if (!hasCountDownEnded) {
-                this.countdown = Number(Number(this.countdown) + 0.2).toFixed(1);
+                this.countdown = Number(Number(this.countdown) - 0.2).toFixed(1);
             }
     
             if (hasCountDownEnded) {
@@ -85,7 +85,7 @@ class RealTime {
         this.canPlaceBet = true;
         this.generatedOdds = '0.00';
         this.rangeOutcome= '';
-        this.countdown = '0.0';
+        this.countdown = '10.0';
         this.reference = '';
         this.date = null;
         this.readingOdds = '1.00';
