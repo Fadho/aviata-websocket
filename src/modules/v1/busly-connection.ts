@@ -9,6 +9,7 @@ class RealTime {
     private readingOdds = '1.00'
     private roundWaitTime = '5.0'
     private generatedOdds = '0.00';
+    private oddsIncrement = 0.02
     private rangeOutcome = '';
     private date: Date | null = null;
     private roundWaitTimeEndAt = 0;
@@ -48,6 +49,7 @@ class RealTime {
         }
 
         if (hasWaitTimeEnded) {
+            this.canPlaceBet = true
             if (Number(this.countdown) === 10) {
                 this.GenerateCred()
             }
@@ -58,7 +60,8 @@ class RealTime {
     
             if (hasCountDownEnded) {
                 this.canPlaceBet = false
-                this.readingOdds = Number(Number(this.readingOdds) + 0.02).toFixed(2)
+                this.readingOdds = Number(Number(this.readingOdds) + this.oddsIncrement).toFixed(2)
+                this.oddsIncrement += 0.005
             }
     
             if (hasCountDownEnded && parseFloat(this.generatedOdds) <= parseFloat(this.readingOdds)) {
@@ -78,11 +81,11 @@ class RealTime {
             generatedOdds: this.generatedOdds,
             rangeOutcome: this.rangeOutcome,
             roundWaitTime: this.roundWaitTime,
-        }
+        } 
     }
 
     public Clear() {
-        this.canPlaceBet = true;
+        this.canPlaceBet = false;
         this.generatedOdds = '0.00';
         this.rangeOutcome= '';
         this.countdown = '10.0';
