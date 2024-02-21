@@ -61,7 +61,7 @@ class RealTime {
             if (hasCountDownEnded) {
                 this.canPlaceBet = false
                 this.readingOdds = Number(Number(this.readingOdds) + this.oddsIncrement).toFixed(2)
-                this.oddsIncrement += 0.005
+                this.oddsIncrement += 0.002
             }
     
             if (hasCountDownEnded && parseFloat(this.generatedOdds) <= parseFloat(this.readingOdds)) {
