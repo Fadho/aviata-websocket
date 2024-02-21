@@ -92,6 +92,7 @@ class RealTime {
         this.reference = '';
         this.date = null;
         this.readingOdds = '1.00';
+        this.oddsIncrement = 0
         this.roundWaitTime = '0.0';
     }
 }
