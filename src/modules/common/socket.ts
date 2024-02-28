@@ -36,5 +36,5 @@ export const handleSocketRequest = async (io: Server) => {
             "crash-event",
             encryptData(JSON.stringify(data))
         )
-    }, 400)
+    }, 600)
 }
