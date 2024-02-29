@@ -31,7 +31,7 @@ export const handleSocketRequest = async (io: Server) => {
             connectedUsers: connectedSockets.length,
         }
         
-        console.log(data);
+        // console.log(data);
         io.volatile.emit(
             "crash-event",
             encryptData(JSON.stringify(data))
