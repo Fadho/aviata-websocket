@@ -1,21 +1,27 @@
-import { processAlgorithm, processRangeAlgo } from "../common/gameAlgorithm";
-import { createReference } from "../common/utils";
+/** @format */
+
+import { processAlgorithm, processRangeAlgo } from "../common/gameAlgorithm"
+import { createReference } from "../common/utils"
+
 
 class RealTime {
-    private reference = '';
-    private countdown = '10';
+    private reference = ""
+    private countdown = 10
     private countdownEndAt = 0
-    private canPlaceBet = true;
-    private readingOdds = '1.00'
-    private roundWaitTime = '3.0'
-    private generatedOdds = '0.00';
-    private oddsIncrement = 0.04
-    private rangeOutcome = '';
-    private date: Date | null = null;
-    private roundWaitTimeEndAt = 0;
+    private canPlaceBet = true
+    private readingOdds = "1.01"
+    private secondsInReadingOdds = 1;
+    private roundWaitTime = 5
+    private generatedOdds = "1.02"
+    private rangeOutcome = ""
+    private hasGeneratedOdds = false
+    private date: Date | null = null
+    private roundWaitTimeEndAt = 0
+
+    private timeElapsedInSeconds = 0
 
     constructor(date: Date | null) {
-        this.date = date;
+        this.date = date
     }
 
     private Algorithm() {
@@ -40,61 +46,79 @@ class RealTime {
         }
     }
 
-    public Start() {
-        const hasCountDownEnded = Number(this.countdown) === this.countdownEndAt;
-        const hasWaitTimeEnded = Number(this.roundWaitTime) === this.roundWaitTimeEndAt;
 
-        if (!hasWaitTimeEnded) {
-            this.roundWaitTime = Number(Number(this.roundWaitTime) - 0.4)>0 ? Number(Number(this.roundWaitTime) - 0.4).toFixed(1):'0';
+    private processGeneratedOdds() {
+        // Y=1.01^x
+        this.readingOdds = Math.pow(1.01, this.secondsInReadingOdds).toFixed(2)
+    }
+
+    public Start() {
+        const hasCountDownEnded =
+            Number(this.countdown) === Number(this.countdownEndAt);
+        const hasOddsCrashed = Number(this.readingOdds) >= Number(this.generatedOdds);
+        const hasWaitTimeEnded = this.roundWaitTimeEndAt === this.roundWaitTime;
+        
+        if (!hasCountDownEnded) {
+            this.timeElapsedInSeconds = this.timeElapsedInSeconds + 100;
+
+            if (this.timeElapsedInSeconds >= 1000) {
+                this.countdown = Number(this.countdown) - 1;
+                this.timeElapsedInSeconds = 0;
+            }
+        }
+
+        if (hasCountDownEnded && !hasOddsCrashed) {
+            this.canPlaceBet = false;
+
+            if (!this.hasGeneratedOdds) {
+                this.GenerateCred(),
+                this.hasGeneratedOdds = true
+                this.timeElapsedInSeconds = 0;
+            }
+                this.secondsInReadingOdds = this.secondsInReadingOdds + 1
+                this.processGeneratedOdds();
+        }
+
+        if (hasOddsCrashed && !hasWaitTimeEnded) {
+            this.timeElapsedInSeconds = this.timeElapsedInSeconds + 100;
+
+            if (this.timeElapsedInSeconds >= 1000) {
+                this.roundWaitTime = Number(this.roundWaitTime) - 1
+                this.timeElapsedInSeconds = 0
+            }
         }
 
         if (hasWaitTimeEnded) {
-            this.canPlaceBet = true
-            if (Number(this.countdown) === 10) {
-                this.GenerateCred()
-            }
-
-            if (!hasCountDownEnded) {
-                this.countdown = String(Number(this.countdown) - 1);
-            }
-    
-            if (hasCountDownEnded) {
-                this.canPlaceBet = false
-                this.readingOdds = Number(Number(this.readingOdds) + this.oddsIncrement).toFixed(2)
-                this.oddsIncrement += 0.02
-            }
-    
-            if (hasCountDownEnded && parseFloat(this.generatedOdds) <= parseFloat(this.readingOdds)) {
-                this.Clear()
-                this.roundWaitTime = Number(Number(this.roundWaitTime) ).toFixed(1);
-            }
+            this.Clear();
         }
 
-
-
         return {
-            date: this.date,
             countdown: this.countdown,
-            reference: this.reference,
             canPlaceBet: this.canPlaceBet,
+            date: this.date,
             readingOdds: this.readingOdds,
+            // secondsInReadingOdds: this.secondsInReadingOdds,
             generatedOdds: this.generatedOdds,
             rangeOutcome: this.rangeOutcome,
             roundWaitTime: this.roundWaitTime,
-        } 
+            reference: this.reference,
+        }
     }
 
     public Clear() {
-        this.canPlaceBet = false;
-        this.generatedOdds = '0.00';
-        this.rangeOutcome= '';
-        this.countdown = '10';
-        this.reference = '';
-        this.date = null;
-        this.readingOdds = '1.00';
-        this.oddsIncrement = 0
-        this.roundWaitTime = '3.0';
+        this.canPlaceBet = true
+        this.generatedOdds = "1.02"
+        this.rangeOutcome=""
+        this.countdown = 10
+        this.reference = ""
+        this.date = null
+        this.countdownEndAt = 0
+        this.readingOdds = "1.01"
+        this.roundWaitTime = 5
+        this.timeElapsedInSeconds = 0
+        this.hasGeneratedOdds = false;
+        this.secondsInReadingOdds = 0
     }
 }
 
-export default RealTime;
+export default RealTime
