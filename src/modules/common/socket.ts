@@ -1,7 +1,7 @@
 /** @format */
 
 import { Server } from "socket.io"
-import RealTime from "../v1/busly-connection"
+import RealTime from "../v1/aviata-connection"
 import { encryptData } from "./hashings"
 
 const connectedSockets: Array<string> = []
@@ -31,7 +31,7 @@ export const handleSocketRequest = async (io: Server) => {
             connectedUsers: connectedSockets.length,
         }
         
-        // console.log(data);
+        console.log(data);
         io.volatile.emit(
             "crash-event",
             encryptData(JSON.stringify(data))

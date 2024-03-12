@@ -49,7 +49,7 @@ class RealTime {
 
     private processGeneratedOdds() {
         // Y=1.01^x
-        this.readingOdds = Math.pow(1.01, this.secondsInReadingOdds).toFixed(2)
+        this.readingOdds = Math.pow(1.01, this.secondsInReadingOdds/1.5).toFixed(2)
     }
 
     public Start() {
